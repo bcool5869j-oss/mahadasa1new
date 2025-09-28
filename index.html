@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mahadasha Degree Date Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; line-height: 1.6; }
+    label { display:block; margin-top: 12px; font-weight: bold; }
+    input { padding:6px; margin-top:4px; width:200px; }
+    button { margin-top:18px; padding:10px 20px; font-size: 1em; cursor:pointer; }
+    #result { margin-top:25px; font-weight:bold; font-size: 1.2em; color:#006400; }
+  </style>
+</head>
+<body>
+  <h2>🌙 Mahadasha Degree → Date Calculator</h2>
+
+  <label>Start Date:
+    <input id="start" type="date" value="2020-01-18">
+  </label>
+
+  <label>End Date:
+    <input id="end" type="date" value="2028-01-18">
+  </label>
+
+  <label>Degrees (0–30):
+    <input id="deg" type="number" value="27" min="0" max="30">
+  </label>
+
+  <label>Minutes (0–59):
+    <input id="min" type="number" value="47" min="0" max="59">
+  </label>
+
+  <button onclick="calc()">Calculate</button>
+  <div id="result"></div>
+
+<script>
+function calc(){
+  const s = new Date(document.getElementById('start').value);
+  const e = new Date(document.getElementById('end').value);
+  const deg = Number(document.getElementById('deg').value);
+  const min = Number(document.getElementById('min').value);
+
+  if (isNaN(deg) || isNaN(min) || !s || !e) {
+    document.getElementById('result').innerText = "⚠️ Please fill all fields correctly.";
+    return;
+  }
+
+  const decDeg = deg + min/60;
+  const daysTotal = (e - s) / (1000*60*60*24);
+  const offsetDays = (decDeg/30) * daysTotal;
+  const result = new Date(s.getTime() + offsetDays * 24*60*60*1000);
+
+  document.getElementById('result').innerText =
+    "📅 Exact Date: " + result.toISOString().replace('T',' ').slice(0,19);
+}
+</script>
+</body>
+</html>
